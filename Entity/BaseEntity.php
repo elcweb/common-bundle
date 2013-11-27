@@ -18,7 +18,7 @@ abstract class BaseEntity
      *
      * @Serializer\Expose
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
@@ -27,7 +27,7 @@ abstract class BaseEntity
      *
      * @Serializer\Expose
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * Set createdAt

@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\MappedSuperclass
  * @Serializer\ExclusionPolicy("all")
  */
-class BaseEntity
+abstract class BaseEntity
 {
     /**
      * @var \DateTime

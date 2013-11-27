@@ -1,28 +1,22 @@
 <?php
 
 namespace Elcweb\CommonBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\MappedSuperclass
+ * @Serializer\ExclusionPolicy("all")
  */
-abstract class BaseEntity
+class BaseEntity
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private  $id;
-
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
+     *
+     * @Serializer\Expose
      */
     private $createdAt;
 
@@ -30,18 +24,10 @@ abstract class BaseEntity
      * @var \DateTime
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="update")
+     *
+     * @Serializer\Expose
      */
     private $updatedAt;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set createdAt

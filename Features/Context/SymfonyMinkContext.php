@@ -8,6 +8,9 @@ use Behat\MinkExtension\Context\MinkContext;
 use Behat\CommonContexts\MinkRedirectContext;
 use Behat\CommonContexts\SymfonyMailerContext;
 use Behat\CommonContexts\SymfonyDoctrineContext;
+use Behat\Mink\Exception\UnsupportedDriverActionException,
+    Behat\Mink\Exception\ExpectationException;
+use Behat\MinkBundle\Driver\SymfonyDriver;
 
 //
 // Require 3rd-party libraries here:
@@ -84,5 +87,27 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
         fwrite(STDOUT, "\033[u");
 
         return;
+    }
+
+    public function getSymfonyProfile()
+    {
+        $driver = $this->getSession()->getDriver();
+        if (!$driver instanceof SymfonyDriver) {
+            throw new UnsupportedDriverActionException(
+                'You need to tag the scenario with '.
+                '"@mink:symfony". Using the profiler is not '.
+                'supported by %s', $driver
+            );
+        }
+
+        $profile = $driver->getClient()->getProfile();
+        if (false === $profile) {
+            throw new \RuntimeException(
+                'Emails cannot be tested as the profiler is '.
+                'disabled.'
+            );
+        }
+
+        return $profile;
     }
 }

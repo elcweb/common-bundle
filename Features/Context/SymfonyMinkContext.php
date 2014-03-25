@@ -2,6 +2,7 @@
 
 namespace Elcweb\CommonBundle\Features\Context;
 
+use Behat\Symfony2Extension\Driver\KernelDriver;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Behat\MinkExtension\Context\MinkContext;
@@ -15,8 +16,8 @@ use Behat\MinkBundle\Driver\SymfonyDriver;
 //
 // Require 3rd-party libraries here:
 //
-   require_once 'PHPUnit/Autoload.php';
-   require_once 'PHPUnit/Framework/Assert/Functions.php';
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
 /**
@@ -38,7 +39,7 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
 
         $this->useContext('mink_redirect', new MinkRedirectContext());
         $this->useContext('symfony_extra', new SymfonyMailerContext());
-        $this->useContext('symfony_doctrine_context',  new SymfonyDoctrineContext);
+        $this->useContext('symfony_doctrine_context', new SymfonyDoctrineContext);
     }
 
     /**
@@ -83,7 +84,8 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
     public function iPutABreakpoint()
     {
         fwrite(STDOUT, "\033[s    \033[93m[Breakpoint] Press \033[1;93m[RETURN]\033[0;93m to continue...\033[0m");
-        while (fgets(STDIN, 1024) == '') {}
+        while (fgets(STDIN, 1024) == '') {
+        }
         fwrite(STDOUT, "\033[u");
 
         return;
@@ -92,23 +94,38 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
     public function getSymfonyProfile()
     {
         $driver = $this->getSession()->getDriver();
-        if (!$driver instanceof SymfonyDriver) {
+
+        if (!$driver instanceof KernelDriver) {
             throw new UnsupportedDriverActionException(
-                'You need to tag the scenario with '.
-                '"@mink:symfony". Using the profiler is not '.
+                'You need to tag the scenario with ' .
+                '"@mink:symfony". Using the profiler is not ' .
                 'supported by %s', $driver
             );
         }
 
         $profile = $driver->getClient()->getProfile();
+
         if (false === $profile) {
             throw new \RuntimeException(
-                'Emails cannot be tested as the profiler is '.
+                'Emails cannot be tested as the profiler is ' .
                 'disabled.'
             );
         }
 
         return $profile;
+    }
+
+    public function canIntercept()
+    {
+        $driver = $this->getSession()->getDriver();
+        if (!$driver instanceof KernelDriver) {
+            throw new UnsupportedDriverActionException(
+                'You need to tag the scenario with ' .
+                '"@mink:goutte" or "@mink:symfony". ' .
+                'Intercepting the redirections is not ' .
+                'supported by %s', $driver
+            );
+        }
     }
 
     /**
@@ -118,6 +135,7 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
     {
         $error     = sprintf('No message sent to "%s"', $email);
         $profile   = $this->getSymfonyProfile();
+
         $collector = $profile->getCollector('swiftmailer');
 
         foreach ($collector->getMessages() as $message) {
@@ -128,7 +146,7 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
             $correctRecipient = array_key_exists(
                 $email, $message->getTo()
             );
-            $headers = $message->getHeaders();
+            $headers          = $message->getHeaders();
             $correctXToHeader = false;
             if ($headers->has('X-Swift-To')) {
                 $correctXToHeader = array_key_exists($email,
@@ -143,12 +161,12 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
             try {
                 // checking the content
                 return assertContains(
-                    $text->getRaw(), $message->getBody()
+                    $text, $message->getBody()
                 );
             } catch (AssertException $e) {
                 $error = sprintf(
-                    'An email has been found for "%s" but without '.
-                    'the text "%s".', $email, $text->getRaw()
+                    'An email has been found for "%s" but without ' .
+                    'the text "%s".', $email, $text
                 );
             }
         }

@@ -27,6 +27,7 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
 {
     protected $kernel;
     protected $parameters;
+    protected $test;
 
     /**
      * Initializes context with parameters from behat.yml.
@@ -157,6 +158,8 @@ abstract class SymfonyMinkContext extends MinkContext implements KernelAwareInte
             if (!$correctRecipient && !$correctXToHeader) {
                 continue;
             }
+
+            $GLOBALS['email_body'] = $message->getBody();
 
             try {
                 // checking the content

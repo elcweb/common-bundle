@@ -1,6 +1,7 @@
 <?php
 
 namespace Elcweb\CommonBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -17,6 +18,7 @@ abstract class BaseEntity
      * @Gedmo\Timestampable(on="create")
      *
      * @Serializer\Expose
+     * @Serializer\Type("DateTime")
      */
     protected $createdAt;
 
@@ -26,6 +28,7 @@ abstract class BaseEntity
      * @Gedmo\Timestampable(on="update")
      *
      * @Serializer\Expose
+     * @Serializer\Type("DateTime")
      */
     protected $updatedAt;
 

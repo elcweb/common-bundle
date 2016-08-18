@@ -1,5 +1,6 @@
-Elcweb CommonBundle
+Elcweb CommonBundle 
 ======================
+[![Build Status](https://img.shields.io/travis/elcweb/common-bundle.svg)](https://travis-ci.org/elcweb/common-bundle)
 
 To store all DateTime as UTC DateTime add this to config.yml
 

@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\MappedSuperclass
  * @Serializer\ExclusionPolicy("all")
+ * @deprecated Please use the trait TimestampableEntity https://goo.gl/Qccgyh
  */
 abstract class BaseEntity
 {

@@ -1,7 +1,19 @@
 Elcweb CommonBundle 
 ======================
 [![Build Status](https://img.shields.io/travis/elcweb/common-bundle.svg)](https://travis-ci.org/elcweb/common-bundle)
+[![Total Downloads](https://img.shields.io/packagist/dt/elcweb/common-bundle.svg)](https://packagist.org/packages/elcweb/common-bundle)
+[![Latest Stable Version](https://img.shields.io/packagist/v/elcweb/common-bundle.svg)](https://packagist.org/packages/elcweb/common-bundle)
 
+Installation
+------------
+Install the latest version with
+
+```bash
+$ composer require elcweb/common-bundle
+```
+
+Usage
+-----
 To store all DateTime as UTC DateTime add this to config.yml
 
 ```

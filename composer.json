@@ -2,7 +2,7 @@
     "name": "elcweb/common-bundle",
     "type": "symfony-bundle",
     "description": "Common tools/libs",
-    "license": "propritary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Etienne Lachance",
@@ -10,12 +10,19 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "symfony/framework-bundle": ">=2.1,<3.0-dev"
+        "php": ">=5.5.1",
+        "symfony/framework-bundle": ">=2.1,<3.0-dev",
+        "doctrine/dbal": "*"
     },
     "autoload": {
-        "psr-0": { "Elcweb\\CommonBundle": "" }
+        "psr-4": { "Elcweb\\CommonBundle\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Elcweb\\CommonBundle\\": "tests" }
     },
     "minimum-stability": "dev",
-    "target-dir": "Elcweb/CommonBundle"
+    "target-dir": "Elcweb/CommonBundle",
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
+    }
 }

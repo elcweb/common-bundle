@@ -8,12 +8,11 @@ matrix:
           env: deps=low
         - php: 7
         - php: 5.5
+        - php: 5.4
         - php: 5.3
     fast_finish: true
 
 before_script:
-  - echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "extension = amqp.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if [ "$deps" == "low" ]; then composer update --prefer-source --prefer-lowest --prefer-stable; fi
   - if [ "$deps" != "low" ]; then composer install --prefer-source; fi
 

@@ -23,5 +23,11 @@
     "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "^5.5"
+    },
+    "scripts": {
+        "test": [
+            "parallel-lint . --exclude vendor",
+            "phpunit"
+        ]
     }
 }

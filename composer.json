@@ -21,7 +21,6 @@
         "psr-4": { "Elcweb\\CommonBundle\\": "tests" }
     },
     "minimum-stability": "dev",
-    "target-dir": "Elcweb/CommonBundle",
     "require-dev": {
         "phpunit/phpunit": "^5.5"
     }
